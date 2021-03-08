@@ -3,7 +3,7 @@
 Fonts
 ======
 */
-@import url("https://fonts.googleapis.com/css?family=Catamaran:300,400&display=swap");
+@import url('https://fonts.googleapis.com/css?family=Catamaran:300,400&display=swap');
 /* 
 ====== 
 Variables 
@@ -34,7 +34,7 @@ Global Styles
 }
 
 body {
-  font-family: "Catamaran", sans-serif;
+  font-family: 'Catamaran', sans-serif;
   color: var(--mainBlack);
   background: var(--mainGrey);
   line-height: 1.4;
@@ -47,7 +47,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Catamaran", sans-serif;
+  font-family: 'Catamaran', sans-serif;
   margin-bottom: 1.25rem;
   letter-spacing: var(--mainSpacing);
 }
