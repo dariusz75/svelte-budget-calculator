@@ -1,7 +1,7 @@
 <script>
   import Title from './Title.svelte';
   import Expense from './Expense.svelte';
-
+  //props
   export let expenses = [];
 </script>
 
