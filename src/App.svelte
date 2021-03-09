@@ -8,7 +8,10 @@
   import expensesData from './expenses';
   //variables
   let expenses = [...expensesData];
-  let total = 0;
+  //reactive
+  $: total = expenses.reduce((accumulator, current) => {
+    return (accumulator = accumulator + current.amount);
+  }, 0);
   //functions
   const removeExpense = (id) => {
     expenses = expenses.filter((expense) => expense.id !== id);
