@@ -12,11 +12,12 @@
 
   //variables
   let expenses = [...expensesData];
-
   //set editing variables
   let setId = null;
   let setName = '';
   let setAmount = null;
+  //toggle form variables
+  let isFormOpen = false;
 
   //reactive variables
   $: isEditing = setId ? true : false;
@@ -25,6 +26,18 @@
   }, 0);
 
   //functions
+
+  const showForm = () => {
+    isFormOpen = true;
+  };
+
+  const hideForm = () => {
+    isFormOpen = false;
+    setId = null;
+    setAmount = null;
+    setName = '';
+  };
+
   const removeExpense = (id) => {
     expenses = expenses.filter((expense) => expense.id !== id);
   };
@@ -66,16 +79,20 @@
   setContext('modify', setModifiedExpense);
 </script>
 
-<Navbar />
+<Navbar {showForm} />
 <main class="content">
-  <ExpenseForm
-    {addExpense}
-    {isEditing}
-    {editExpense}
-    name={setName}
-    amount={setAmount}
-    id={setId}
-  />
+  {#if isEditing || isFormOpen}
+    <ExpenseForm
+      {addExpense}
+      {isEditing}
+      {editExpense}
+      {hideForm}
+      name={setName}
+      amount={setAmount}
+      id={setId}
+    />
+  {/if}
+
   <Totals title="total exppenses" {total} />
   <ExpensesList {expenses} />
   <button
