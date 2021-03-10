@@ -1,5 +1,5 @@
 <script>
-  import { setContext, onMount } from 'svelte';
+  import { setContext, onMount, afterUpdate } from 'svelte';
 
   //components
   import Navbar from './components/Navbar.svelte';
@@ -40,12 +40,10 @@
 
   const removeExpense = (id) => {
     expenses = expenses.filter((expense) => expense.id !== id);
-    setLocalStorage();
   };
 
   const clearExpenses = () => {
     expenses = [];
-    setLocalStorage();
   };
 
   const addExpense = ({ name, amount }) => {
@@ -55,7 +53,6 @@
       amount: amount,
     };
     expenses = [expense, ...expenses];
-    setLocalStorage();
   };
 
   const setModifiedExpense = (id) => {
@@ -75,7 +72,6 @@
     setId = null;
     setAmount = null;
     setName = '';
-    setLocalStorage();
   };
 
   //context
@@ -91,6 +87,10 @@
     expenses = localStorage.getItem('expenses')
       ? JSON.parse(localStorage.getItem('expenses'))
       : [];
+  });
+
+  afterUpdate(() => {
+    setLocalStorage();
   });
 </script>
 
