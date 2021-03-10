@@ -1,5 +1,5 @@
 <script>
-  import { setContext } from 'svelte';
+  import { setContext, onMount } from 'svelte';
 
   //components
   import Navbar from './components/Navbar.svelte';
@@ -8,10 +8,10 @@
   import ExpenseForm from './components/ExpenseForm.svelte';
 
   //data
-  import expensesData from './expenses';
+  //import expensesData from './expenses';
 
   //variables
-  let expenses = [...expensesData];
+  let expenses = [];
   //set editing variables
   let setId = null;
   let setName = '';
@@ -40,10 +40,12 @@
 
   const removeExpense = (id) => {
     expenses = expenses.filter((expense) => expense.id !== id);
+    setLocalStorage();
   };
 
   const clearExpenses = () => {
     expenses = [];
+    setLocalStorage();
   };
 
   const addExpense = ({ name, amount }) => {
@@ -53,6 +55,7 @@
       amount: amount,
     };
     expenses = [expense, ...expenses];
+    setLocalStorage();
   };
 
   const setModifiedExpense = (id) => {
@@ -72,11 +75,23 @@
     setId = null;
     setAmount = null;
     setName = '';
+    setLocalStorage();
   };
 
   //context
   setContext('remove', removeExpense);
   setContext('modify', setModifiedExpense);
+
+  //local storage
+  const setLocalStorage = () => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  };
+
+  onMount(() => {
+    expenses = localStorage.getItem('expenses')
+      ? JSON.parse(localStorage.getItem('expenses'))
+      : [];
+  });
 </script>
 
 <Navbar {showForm} />
@@ -95,9 +110,11 @@
 
   <Totals title="total exppenses" {total} />
   <ExpensesList {expenses} />
-  <button
-    type="button"
-    class="btn btn-primary btn-block"
-    on:click={clearExpenses}>clear expenses</button
-  >
+  {#if expenses.length > 0}
+    <button
+      type="button"
+      class="btn btn-primary btn-block"
+      on:click={clearExpenses}>clear expenses</button
+    >
+  {/if}
 </main>
